@@ -9,6 +9,8 @@ export function Ecommerce(){
     const [products,setProducts] = useState([])
     const [cartCount,setCartCount] = useState(0)
     const [cartItems,setCartItems] = useState([])
+    const [total,setTotal] = useState(0)
+
    
     function getCategories(){
         axios.get('https://fakestoreapi.com/products/categories')
@@ -45,13 +47,14 @@ export function Ecommerce(){
     function addToCart(item){
         
         cartItems.push(item)
-    
+        
         alert(`${item.title} \nAdded to cart`)
         setCartCount(cartItems.length)
         console.log(item)
 
     }
     useEffect(()=>{
+
         getCategories()
         
         displayProducts('https://fakestoreapi.com/products')
@@ -61,7 +64,7 @@ export function Ecommerce(){
         <div className='d-flex flex-column'>
             <header className="bg-secondary p-3 text-white d-flex justify-content-between align-items-center">
                 <div>
-                    <h1 className='bi bi-cart3'></h1>
+                    <h1 className=''>SHOPPING.</h1>
                 </div>
                 <div>
                     <span className='px-2 mx-2 btn btn-light' onClick={()=>navButtonsClick('all')} >Home</span>
@@ -74,23 +77,32 @@ export function Ecommerce(){
                     <button type='button' data-bs-toggle="modal" data-bs-target="#cart" className='bi bi-cart4 btn btn-warning p-2 rounded position-relative'>
                         <span className='bg-danger badge text-white rounded rounded-circle position-absolute'>{cartCount}</span>    
                     </button>
-                    <div className='modal fade text-primary' id="cart">
+                    <div className='modal fade' id="cart">
                         <div className='modal-dialog'>
                             <div className='modal-content'>
-                                <div className='modal-header'>
+                                <div className='modal-header text-primary'>
                                     <h5><b>Cart Items</b></h5>
                                     <button className='btn btn-close' data-bs-dismiss="modal"></button>
                                 </div>
-                                <div className='modal-body'>
-                                    <div>
-                                        <dl>
-                                            <dt>user name</dt>
-                                            <dd></dd>
-                                        </dl>
-                                    </div>
+                                <div className='modal-body text-secondary'>
+                                    
+                                    {
+                                        cartItems.map((ite,i)=>
+                                        
+                                               <dl key={i} className='d-flex justify-content-between align-items-center'>
+                                                 <dd className='w-25'>{ite.title}</dd>
+                                                 <dt >${ite.price}</dt>
+                                                 <dt><img src={ite.image} width={'50px'}/></dt>
+                                               </dl>
+                                               
+                                        )
+                                        
+                                    }
+                                    
                                 </div>
-                                <div className='modal-footer'>
-                                        <button data-bs-dismiss="modal">Ok</button>
+                                <div className='modal-footer text-secondary d-flex justify-content-between'>
+                                    <p>Total Price : <b className='text-primary'>${cartItems.reduce((total,itm)=>total+itm.price,0)}</b></p>
+                                        <button data-bs-dismiss="modal" className='btn btn-secondary'>Ok</button>
                                 </div>
                             </div>
                         </div>
