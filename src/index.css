@@ -11,3 +11,109 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.n{
+color: #8e65ab;
+color: #dc94b0;
+color: #e8c6de;
+color: #d3ba83;
+color: #ebedd4;
+color: #0b9b8a;
+color: #f596a1;
+color: #fadeeb;
+color: #c4e1f6;
+color: #f9c975;
+color: #45496a;
+color: #7d8bae;
+color: #e5857b;
+color: #f1b2b2;
+color: #e8ccc7;
+color: #dc94b0;
+color: #8e65ab;
+color: #e8c6de;
+color: #d3ba83;
+color: #ebedd4;
+}
+marquee{
+  background-color:#c4e1f6;
+ transform:scale(1);
+}
+/*,,,, 
+,,,,
+,,,,
+*/
+.img:hover{
+  border: 4px solid gray;
+  transition: 2s ;
+  transform: scale(2);
+  
+}
+.nav-items btn{
+  background-color: #e5857b;
+  border: 2px solid #45496a;
+}
+.nav{
+  background-color:#8e65ab;
+  display: grid;
+  grid-template-columns: 3fr 6fr 3fr;
+}
+.body{
+  background-color:#e8c6de;
+}
+
+
+
+/* Basic navbar styling */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  
+  color: white;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.menu-icon {
+  display: none;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #333;
+    width: 100%;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .menu-icon {
+    display: block;
+  }
+}
+

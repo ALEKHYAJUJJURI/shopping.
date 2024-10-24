@@ -3,13 +3,20 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/js/dist/modal'
+import Apps from './compo/Apps';
+import '../src/index.css'
+
+
+
+
 
 export function Ecommerce(){
     const [category,setCategory] = useState([])
     const [products,setProducts] = useState([])
     const [cartCount,setCartCount] = useState(0)
     const [cartItems,setCartItems] = useState([])
-    const [total,setTotal] = useState(0)
+
+  const [orderMsg,setOrderMsg] = useState('')
 
    
     function getCategories(){
@@ -60,20 +67,26 @@ export function Ecommerce(){
         displayProducts('https://fakestoreapi.com/products')
     },[])
     
+    
     return(
-        <div className='d-flex flex-column'>
-            <header className="bg-secondary p-3 text-white d-flex justify-content-between align-items-center">
+        <div className='body d-flex flex-column'> 
+                
+     <header className="nav p-3 text-white d-flex justify-content-between align-items-center">
                 <div>
-                    <h1 className=''>SHOPPING.</h1>
+                    <h3 className=''>SHOPPING.</h3>
+                    </div> 
+                    <div className='d-flex justify-content-center'>
+                <span className='px-2 mx-1 w-25 btn ' onClick={()=>navButtonsClick('electronics')}>Electronics </span>
+                    <span className='px-2 mx-1 w-25 btn' onClick={()=>navButtonsClick(`men's clothing`)}>Men's Fashion</span>
+                    <span className='px-2 mx-1 w-25 btn' onClick={()=>navButtonsClick('jewelery')}>Jewellery</span>
+                    <span className='px-2 mx-1 w-25 btn' onClick={()=>navButtonsClick(`women's clothing`)}>Women's Fashion</span>
                 </div>
-                <div>
-                    <span className='px-2 mx-2 btn btn-light' onClick={()=>navButtonsClick('all')} >Home</span>
-                    <span className='px-2 mx-2 btn btn-light' onClick={()=>navButtonsClick('electronics')}>Electronics</span>
-                    <span className='px-2 mx-2 btn btn-light' onClick={()=>navButtonsClick(`men's clothing`)}>Men's Fashion</span>
-                    <span className='px-2 mx-2 btn btn-light' onClick={()=>navButtonsClick('jewelery')}>Jewellery</span>
-                    <span className='px-2 mx-2 btn btn-light' onClick={()=>navButtonsClick(`women's clothing`)}>Women's Fashion</span>
-                </div>
-                <div>
+
+                <div className='d-flex justify-content-end'>
+                    <div className='input-group mx-3 '>
+                       <input type='text' className='form-control'/>
+                       <button className='bi bi-search btn btn-warning'></button>
+                    </div>
                     <button type='button' data-bs-toggle="modal" data-bs-target="#cart" className='bi bi-cart4 btn btn-warning p-2 rounded position-relative'>
                         <span className='bg-danger badge text-white rounded rounded-circle position-absolute'>{cartCount}</span>    
                     </button>
@@ -93,7 +106,9 @@ export function Ecommerce(){
                                                  <dd className='w-25'>{ite.title}</dd>
                                                  <dt >${ite.price}</dt>
                                                  <dt><img src={ite.image} width={'50px'}/></dt>
+                                                 <button className='bi bi-trash btn btn-danger'></button>
                                                </dl>
+                                               
                                                
                                         )
                                         
@@ -102,16 +117,40 @@ export function Ecommerce(){
                                 </div>
                                 <div className='modal-footer text-secondary d-flex justify-content-between'>
                                     <p>Total Price : <b className='text-primary'>${cartItems.reduce((total,itm)=>total+itm.price,0)}</b></p>
-                                        <button data-bs-dismiss="modal" className='btn btn-secondary'>Ok</button>
+                                        <button data-bs-toggle="modal" data-bs-target="#placeOrder" className='btn btn-secondary'>Place Order</button>
+                                        
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div className='modal fade' id="placeOrder">
+                                            <div className='modal-dialog modal-dialog-centered' style={{'height':'400px'}}>
+                                                <div className='modal-content'>
+                                                    <div className='modal-header'>
+                                                        <h3 className='text-success'><b>Order has been placed successfully</b></h3>
+                                                    </div>
+                                                    <div className='modal-body'>
+                                                        <p className='text-dark'>Happy Shopping...🙏</p>
+                                                    </div>
+                                                    <div className='modal-footer'>
+                                                        <button className='btn btn-secondary' data-bs-target="#placeOrder" data-bs-dismiss="modal">Ok</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                    <button className='mx-3 btn rounded-circle bg-warning'><span className='bi bi-person-fill rounded-circle'></span></button>
                 </div>
                
             </header>
+            <span className='h3'> <span style={{'color':'#0b9b8a'}}><b>C</b></span>
+            <span style={{'color':'#f596a1'}}><b>O</b></span>
+            <span style={{'color':'#fadeeb'}}><b>L</b></span>
+            <span style={{'color':'#c4e1f6'}}><b>O</b></span>
+            <span style={{'color':'#f9c975'}}><b>R</b></span>
+            </span>
             <main className='row m-3'>
-                <div className='col-2'>
+                
+                <div className=''>
                     <label className='fs-5'>Select Category</label>
                 <select className='rounded rounded-3 form-select' onChange={categoryChangeFun}>
                     {
@@ -121,7 +160,15 @@ export function Ecommerce(){
                     }
                 </select>
                 </div>
-                <div className='col-10 d-flex flex-wrap overflow-auto' style={{'height':'500px'}}>
+                <div>
+                    <marquee>
+                        <img  src={`${process.env.PUBLIC_URL}/electronics.jpeg`} width={'100px'} height={'100px'} alt='electronics' className='mx-2 img'/>
+                        <img src={`${process.env.PUBLIC_URL}/mens.jpeg`} width={'100px'} height={'100px'} alt="men's wear" className='mx-2 img'/>
+                        <img src={`${process.env.PUBLIC_URL}/jewellery.jpeg`} width={'100px'} height={'100px'} alt='jewellery' className='mx-2 img'/>
+                        <img src={`${process.env.PUBLIC_URL}/women.jpeg`} width={'100px'} height={'100px'} alt="women's wear" className='mx-2 img'/>
+                    </marquee>
+                </div>
+                <div className='d-flex flex-wrap overflow-auto' style={{'height':'500px'}}>
                     {
                         products.map(item=>
                             <div className='card d-flex mx-2' key={item.id} style={{'width':'350px'}}>
