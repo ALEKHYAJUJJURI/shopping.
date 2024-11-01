@@ -5,6 +5,7 @@ import axios from "axios";
 import "bootstrap/js/dist/modal";
 import Apps from "./compo/Apps";
 import "../src/index.css";
+import { LoginPage } from "./login";
 
 export function Ecommerce() {
   const [category, setCategory] = useState([]);
@@ -13,8 +14,8 @@ export function Ecommerce() {
   const [cartItems, setCartItems] = useState([]);
   const [inputText, setInputText] = useState("");
   const [errMsg, setErrMsg] = useState("");
-  const [errMsg2,setErrMsg2] = useState('')
-  const [notFoundMsg, setNotFoundMsg] = useState("");
+  const [errMsg2, setErrMsg2] = useState("");
+  const [UName,setUName] = useState('');
 
   const [orderMsg, setOrderMsg] = useState("");
 
@@ -52,15 +53,13 @@ export function Ecommerce() {
   }
   function addToCart(item) {
     cartItems.push(item);
-
     alert(`${item.title} \nAdded to cart`);
     setCartCount(cartItems.length);
     console.log(item);
   }
   useEffect(() => {
-    setErrMsg('d-none')
+    setErrMsg("d-none");
     getCategories();
-
     displayProducts("https://fakestoreapi.com/products");
   }, []);
 
@@ -74,16 +73,29 @@ export function Ecommerce() {
     ) {
       displayProducts(
         `https://fakestoreapi.com/products/category/${inputText}`
-        
       );
-      setErrMsg('d-none')
+      setErrMsg("d-none");
     } else {
       setErrMsg2("d-none");
-      setErrMsg('d-block')
-      
+      setErrMsg("d-block");
     }
   }
-
+  function SignUpClick(){
+    if(UName===''){
+      alert('Please login')
+    }else{
+      localStorage.setItem('uname',UName)
+    }
+  }
+  function SignOut(){
+    if(localStorage.getItem('uname') === ''){
+      alert('Not loggged')
+    }
+    else{
+      localStorage.removeItem('uname')
+      setUName('')
+    }
+  }
   return (
     <div className="body d-flex flex-column">
       <header className="nav p-3 text-white d-flex justify-content-between align-items-center">
@@ -213,32 +225,42 @@ export function Ecommerce() {
               </div>
             </div>
           </div>
-          <button className="mx-3 btn rounded-circle bg-warning">
+         <div>
+         <button className="mx-3 btn rounded-circle bg-warning" data-bs-toggle="modal" data-bs-target="#signUp">
             <span className="bi bi-person-fill rounded-circle"></span>
           </button>
+          <span className="mx-2">{localStorage.getItem('uname')}</span>
+         </div>
+          <div className="modal fade text-dark" id="signUp">
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h2 className="">Sign Up</h2>
+                </div>
+                <div className="modal-body">
+                  <form>
+                    <dl>
+                      <dd>UserName</dd>
+                      <dt>
+                        <input type="text" className="form-control" placeholder="Enter name" onChange={(e)=>{setUName(e.target.value)}} />
+                      </dt>
+                      <dd>Password</dd>
+                      <dt>
+                        <input type="password" className="form-control" placeholder="password" />
+                      </dt>
+                    </dl>
+                    <button className="btn btn-primary" onClick={SignUpClick}>Sign Up</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </header>
-      <span className="h3">
-        {" "}
-        <span style={{ color: "#0b9b8a" }}>
-          <b>C</b>
-        </span>
-        <span style={{ color: "#f596a1" }}>
-          <b>O</b>
-        </span>
-        <span style={{ color: "#fadeeb" }}>
-          <b>L</b>
-        </span>
-        <span style={{ color: "#c4e1f6" }}>
-          <b>O</b>
-        </span>
-        <span style={{ color: "#f9c975" }}>
-          <b>R</b>
-        </span>
-      </span>
       <main className="row m-3">
-        <div className="">
-          <label className="fs-5">Select Category</label>
+        <div className="d-flex justify-content-between">
+         <div>
+         <label className="fs-5">Select Category</label>
           <select
             className="rounded rounded-3 form-select"
             onChange={categoryChangeFun}
@@ -249,8 +271,13 @@ export function Ecommerce() {
               </option>
             ))}
           </select>
+         </div>
+         <div className="text-end">
+        <button className="btn btn-secondary" onClick={SignOut}>SignOut</button>
+        </div>
         </div>
         <div>
+
           <marquee>
             <img
               src={`${process.env.PUBLIC_URL}/electronics.jpeg`}
@@ -283,7 +310,7 @@ export function Ecommerce() {
           </marquee>
         </div>
         <div className={`${errMsg}`}>
-        <div className="main_wrapper">
+          <div className="main_wrapper">
             <div className="main">
               <div className="antenna">
                 <div className="antenna_shadow"></div>
@@ -294,9 +321,7 @@ export function Ecommerce() {
                 <div className="a_base"></div>
               </div>
               <div className="tv">
-                <div className="cruve">
-                
-                </div>
+                <div className="cruve"></div>
                 <div className="display_div">
                   <div className="screen_out">
                     <div className="screen_out1">
